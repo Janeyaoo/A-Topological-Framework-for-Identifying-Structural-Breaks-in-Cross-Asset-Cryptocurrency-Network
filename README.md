@@ -1,6 +1,4 @@
-# A-Topological-Framework-for-Identifying-Structural-Breaks-in-Cross-Asset-Cryptocurrency-Network
-
-# Topological Framework for Detecting Structural Breaks in Cross-Asset Cryptocurrency Networks
+# A Topological Framework for Detecting Structural Breaks in Cross-Asset Cryptocurrency Networks
 
 ## Overview
 
