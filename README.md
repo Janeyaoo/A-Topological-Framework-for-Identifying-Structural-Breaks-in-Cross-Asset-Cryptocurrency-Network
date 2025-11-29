@@ -1,5 +1,4 @@
 # A-Topological-Framework-for-Identifying-Structural-Breaks-in-Cross-Asset-Cryptocurrency-Network
-![Figure 1](https://raw.githubusercontent.com/Janeyaoo/A-Topological-Framework-for-Identifying-Structural-Breaks-in-Cross-Asset-Cryptocurrency-N/main/Fig1.png)
 
 # Topological Framework for Detecting Structural Breaks in Cross-Asset Cryptocurrency Networks
 
