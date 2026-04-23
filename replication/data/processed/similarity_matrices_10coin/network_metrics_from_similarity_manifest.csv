@@ -1,0 +1,5 @@
+source,input_path,raw_n_time,clean_n_time,n_nodes,has_nan_slice_removed,output_columns
+vol_wass,/Users/jane/Documents/202511吾-Systems/3.Data/Similarity/vol_wasserstein_similarity/vol_wasserstein_similarity.npy,1853,1853,10,False,"vol_wass_clustering, vol_wass_degree_centrality, vol_wass_pagerank"
+log_wass,/Users/jane/Documents/202511吾-Systems/3.Data/Similarity/log_wasserstein_similarity/log_wasserstein_similarity.npy,1853,1853,10,False,"log_wass_clustering, log_wass_degree_centrality, log_wass_pagerank"
+log_dtw,/Users/jane/Documents/202511吾-Systems/3.Data/Similarity/log_DTW_similarity/log_DTW_similarity.npz,1853,1853,10,False,"log_dtw_clustering, log_dtw_degree_centrality, log_dtw_pagerank"
+vol_dtw,/Users/jane/Documents/202511吾-Systems/3.Data/Similarity/vol_DTW_similarity/vol_DTW_similarity.npz,1854,1853,10,True,"vol_dtw_clustering, vol_dtw_degree_centrality, vol_dtw_pagerank"

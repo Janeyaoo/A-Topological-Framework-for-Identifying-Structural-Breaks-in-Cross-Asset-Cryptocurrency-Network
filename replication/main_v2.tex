@@ -1,0 +1,1081 @@
+\documentclass[11pt,reqno]{amsart}
+
+\usepackage{amsmath,amsthm,verbatim,amssymb,amsfonts,amscd}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{esint}
+\usepackage{bbm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{xcolor}
+\usepackage{secdot}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{siunitx}
+% \usepackage{soul}
+\numberwithin{equation}{section} % optional: makes numbers like (3.1), (3.2), ...
+
+
+% \usepackage[authoryear,round]{natbib}
+\usepackage[numbers,sort&compress]{natbib}
+% \bibliographystyle{plainnat} 
+\bibliographystyle{unsrtnat}
+
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{cleveref}
+
+\usepackage{booktabs} 
+\usepackage{pdflscape}  
+% ========== page ==========
+\usepackage{fullpage}
+\setlength{\parskip}{0.3em}
+% ========== title==========
+\usepackage{titlesec}
+\usepackage{subcaption} 
+
+% subsection 
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}  
+  {\thesubsection}              
+  {1em}                          
+  {}                             
+  
+% subsubsection 
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries}  
+  {\thesubsubsection}                
+  {1em}                              
+  {}                                 
+% subssububsection 
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}  
+  {\thesubsubsubsection}                %
+  {1em}                             
+  {}                                 
+
+% ========== link==========
+
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+% ========== appendix==========
+\usepackage[title,titletoc]{appendix}
+
+% ========== cleveref==========
+\usepackage{cleveref}
+
+% cleveref 
+\crefname{section}{Section}{Sections}
+\crefname{subsection}{Subsection}{Subsections}
+\crefname{table}{Table}{Tables}
+\crefname{figure}{Figure}{Figures}
+\crefname{equation}{Equation}{Equations}
+\crefname{appendix}{Appendix}{Appendices}
+
+\Crefname{section}{Section}{Sections}
+\Crefname{subsection}{Subsection}{Subsections}
+\Crefname{table}{Table}{Tables}
+\Crefname{figure}{Figure}{Figures}
+\Crefname{equation}{Equation}{Equations}
+\Crefname{appendix}{Appendix}{Appendices}
+
+%##################################
+\begin{document}
+% ==========  ==========
+\begin{center}
+
+\vspace*{1em}
+
+{\Large\bfseries 
+\begin{tabular}{@{}c@{}}
+A Topological Framework for Identifying Structural Breaks \\[0.4em] 
+in Cross-Asset Cryptocurrency Networks
+\end{tabular}
+}
+
+\vspace{2em}
+
+{\large Junda Wu$^{1,2}$, Jian Yao$^{1,3,*}$, Haoyuan Feng$^{4,5}$}
+
+\vspace{1em}
+
+{\normalsize 
+$^{1}$ School of Economics and Management, University of Chinese Academy of Sciences, \\ Beijing 100190, China}
+
+\vspace{0.5em}
+
+{\normalsize 
+$^{2}$ Digital Economy Laboratory, Beijing Institute of Mathematical Sciences and Applications, Beijing 101408, China}
+
+\vspace{0.5em}
+
+{\normalsize 
+$^{3}$ Beijing Key Laboratory of Topological Statistics and Applications for Complex Systems, \\
+Beijing Institute of Mathematical Sciences and Applications, Beijing 101408, China}
+
+{\normalsize 
+$^{4}$ PBC School of Finance, Tsinghua University, Beijing 100084, China}
+
+{\normalsize 
+$^{5}$ Research Institute of The People’s Bank of China, Beijing 100033, China}
+\vspace{1em}
+
+% {\normalsize This Version: November 29, 2025}
+{\normalsize $^*$Corresponding author: Jian Yao(yaojian23@mails.ucas.ac.cn)}
+
+{\normalsize Contributing authors: Junda Wu(wujunda20@mails.ucas.ac.cn),\\
+Haoyuan Feng(fenghy.23@pbcsf.tsinghua.edu.cn)}
+\vspace{0.5em}
+\end{center}
+
+
+% ========== Abstract ==========
+\begin{center}
+\textbf{Abstract}
+\end{center}
+The cryptocurrency market is characterized by pronounced volatility and structural fragility, yet traditional risk indicators (such as price volatility and market indices) primarily capture changes at the price level and often fail to effectively detect deeper structural breaks in the market. 
+To address this limitation, this study proposes a TDA–based framework for detecting structural state transitions by tracking the topological evolution of cross-asset similarity networks and identifying latent sources of structural risk. 
+We compute Wasserstein distance and DTW distance for cryptocurrency time series under a sliding window scheme with time-delay embedding, construct Vietoris–Rips complexes on the resulting similarity networks, and extract topological features including Betti-0, Betti-1, and persistent entropy. 
+These indicators are aligned with realized market events between 2020 and 2025, using data from the ten largest cryptocurrencies by market capitalization, and are systematically benchmarked through ROC–AUC analysis and multiple structural break detection procedures (PELT, BinSeg and CUSUM).
+Empirical results show that TDA-based indicators exhibit robust performance in event identification: topological connectivity features (Betti-0) achieve AUC values in the range of 0.632-0.650, significantly outperforming BVOL, BTC Rogers volatility, VIX, Fear\&Greed and S\&P 500 index. 
+Across all three structural break detection algorithms, TDA-based indicators, particularly log-transformed DTW Betti-0, consistently achieve the highest F1 scores, outperforming conventional market and sentiment indicators, deep-learning methods, and model-based dynamic-dependence approaches.
+Overall, the findings indicate that topology-based measures of structural risk provide an important complementary perspective for structural break detection in cryptocurrency markets and has practical implications for portfolio risk management and systemic stability assessment.
+
+\noindent\textbf{Keywords:} Topological Data Analysis, Structural Break Detection, Cryptocurrency Market, Persistent Homology
+\vspace{1em}
+
+% \noindent $^{*}$ Corresponding author: Jian Yao(yaojian23@mails.ucas.ac.cn) 
+
+\newpage
+% \vspace{2em}
+
+% ========== document ==========
+\section{Introduction}\label{sec1}
+% \subsection{background} 
+The cryptocurrency market has become one of the most volatile and structurally fragile domains of the global financial system\citep{RN3947}. It is marked by extreme price fluctuations, pronounced contagion dynamics, and rapid regime shifts capable of wiping out tens of billions of dollars in market value within hours\citep{RN3946}. 
+Operating as decentralized, permissionless systems with continuous 24/7 trading and largely pseudonymous participation, cryptocurrency markets exhibit structural characteristics that differ fundamentally from those of traditional financial markets\cite{hardle2020understanding,giudici2020cryptocurrencies,bunjaku2017cryptocurrencies}.
+Over the past decade, the cryptocurrency market has experienced unprecedented growth, evolving from a niche digital asset class into a significant component of the global 
+financial ecosystem, with a total market capitalization exceeding 4 trillion at its peak\cite{kaal2020digital,bongini2025crypto,koshelev2022trends}. 
+However, this rapid expansion has been accompanied by a series of severe disruptions that exposed inherent fragilities and systemic risks. 
+These include sovereign regulatory interventions, endogenous protocol failures \cite{uhlig2022luna}, centralized exchange collapses\cite{conlon2023collapse}, and banking system shocks\citep{RN3948}. 
+Collectively, these events erased tens of billions of dollars in market capitalization and revealed how quickly stress can propagate across tokens, exchanges, and the broader crypto–financial infrastructure\cite{lehar2022systemic}. 
+Against this backdrop, developing robust market break indicators capable of detecting structural breaks and regime shifts in cryptocurrency markets remains a critical challenge that has received insufficient attention in the literature.
+
+Financial markets constitute adaptive, nonlinear systems in continual evolution, where price dynamics reflect the joint influence of macroeconomic conditions, policy shifts, 
+investor sentiment, and various exogenous shocks\cite{hommes2001financial,grinols1993risk}. 
+Identifying structural breaks in such systems holds significant value for risk management, enabling investors and regulators to anticipate crises and adjust strategies accordingly\citep{RN3950}. 
+Over the past several decades, a rich array of econometric and 
+statistical methods has been developed for structural break detection in traditional financial market\cite{timmermann2001structural,rodrik2013structural}.
+However, these tools were predominantly calibrated on conventional equity and fixed-income markets and face significant limitations when applied to cryptocurrency markets\citep{RN3951}. 
+Existing approaches exhibit three interrelated limitations when applied to cryptocurrency markets. Volatility-based models such as ARCH/GARCH rely on stationarity and parametric error distributions, capturing only second-moment dynamics while struggling with the heavy tails and continuous microstructure frictions endemic to 24/7 trading\cite{engle2001garch,katsiampa2017volatility}. 
+Classical change-point methods such as CUSUM and Bai--Perron tests operate on univariate or aggregated statistics, failing to capture the rich cross-sectional information embedded in high-dimensional cryptocurrency networks\cite{bai1998estimating,RN3952}. 
+Multivariate correlation-based approaches are further constrained by their reliance on second-moment dependencies, rendering them insensitive to the nonlinear interdependencies and leverage cascades that characterise systemic stress, while sliding-window covariance estimates remain notoriously unstable under asynchronous trading and microstructure noise\cite{RN3954,safikhani2022joint}.
+Moreover, sliding-window covariance estimates are notoriously unstable under asynchronous trading and microstructure noise, producing spurious connectedness patterns\cite{safikhani2022joint}.
+These limitations underscore the need for a methodological framework that is distribution-free, robust to high dimensionality, and explicitly designed to capture evolving structural connectivity in complex financial networks. 
+
+Topological data analysis (TDA) offers a promising direction for addressing these challenges. 
+Grounded in algebraic topology, TDA extracts shape-based invariants that persist under continuous deformations, characterising the global geometric structure of high-dimensional data without relying on parametric assumptions or moment-based summaries\cite{ravishanker2019topological,RN5499}. 
+Its core tool, persistent homology, tracks the evolution of connectivity and cyclic structures across scales, making it particularly well-suited to detecting both abrupt and gradual reconfigurations of cross-asset dependency networks\citep{RN5498,RN5509}. 
+Despite growing applications in traditional financial markets, the use of TDA for structural break detection in cryptocurrency markets remains limited, motivating the present study.
+This gap motivates the present research, which addresses three core questions:(1) Can topological features derived from cross-asset similarity networks reliably detect structural breaks and regime shifts in cryptocurrency markets, outperforming traditional price-based volatility indicators and correlation metrics? (2) Do topological indicators respond differently across distinct categories of market shocks, such as regulatory interventions, protocol failures, centralized exchange collapses, and macroeconomic disruptions?
+(3) Can these indicators help distinguish localized disturbances from system-wide structural crises?
+
+To address these questions, we develop a TDA-based framework that constructs time-evolving similarity networks from cryptocurrency return and volatility series, employing Wasserstein and Dynamic Time Warping (DTW) distances as pairwise dissimilarity measures, and extracts persistent homology features, including Betti numbers and persistence entropy, via Vietoris--Rips (VR) filtrations. 
+These topological indicators are then systematically benchmarked against a set of conventional risk metrics, including the Bitcoin Volatility Index (BVOL), Rogers volatility, the CBOE Volatility Index (VIX), the Fear and Greed Index, and the S\&P~500, using Receiver Operating Characteristic (ROC) curve analysis with corresponding Area Under the Curve (AUC) scores, as well as three structural break detection algorithms: PELT\citep{RN4351}, Binary Segmentation(BinSeg)\citep{RN4352}, and CUSUM\citep{page1963}.
+
+This study extends the existing literature along three dimensions.
+First, we provide the first systematic application of persistent homology to structural break detection in high-dimensional cryptocurrency time series, demonstrating that topology-based indicators capture latent shifts in network architecture that price-based metrics overlook. 
+Second, through a comprehensive benchmarking exercise against conventional market and sentiment indicators, deep-learning models, and dynamic-dependence approaches, we show that TDA-based indicators consistently achieve superior performance in both event identification (ROC--AUC) and structural break detection (F1 score). 
+Third, we identify and categorise multiple types of structural breaks spanning regulatory interventions, protocol failures, exchange collapses, and macroeconomic shocks, demonstrating the framework's robustness across diverse disruption mechanisms.
+
+The structure of this paper is arranged as follows: Section \ref{sec2} reviews the related research. Section \ref{sec3} provides a comprehensive methodology to the background knowledge and analytical framework of TDA. Section \ref{sec4} presents the empirical results. Section \ref{sec5} gives the benchmark test. Finally, Sections \ref{sec6} is the conclusions and discussion.
+
+\section{Related Work} \label{sec2}
+\subsection{Structural Break Detection}
+
+Identifying structural breaks in financial time series is essential for understanding regime shifts in market trends and volatility patterns\citep{RN6102}.  
+Classical approaches, including CUSUM procedures\cite{page1963}, Bai--Perron tests\cite{RN6101}, and Wald/LM/LR-based methods\cite{RN6103}, have become foundational tools for detecting mean and variance shifts in financial time series, yet their reliance on strong parametric assumptions limits their applicability to the high-dimensional, non-stationary settings characteristic of cryptocurrency markets.
+Bayesian frameworks offer more flexible alternatives.\citet{RN5973} pioneered a Bayesian approach that estimates break locations through posterior inference, naturally incorporating uncertainty quantification. 
+\citet{RN6166} advanced this line of research by employing Markov Chain Monte Carlo (MCMC) techniques to handle high-volatility environments. For high-frequency data, \citet{RN6167} developed a non-parametric Bayesian method that has gained traction in detecting abrupt shifts in equity price dynamics. 
+Energy-based methods provide another avenue, measuring distributional divergence across temporal segments by computing energy statistics\cite{RN6106}.
+The proliferation of large-scale financial databases has spurred machine learning innovations in structural break detection. 
+Kernel-based algorithms leveraging support vector machines capture nonlinear structural shifts\cite{RN6260}, while sparse modelling techniques enable the identification of multiple breaks in high-dimensional contexts\cite{RN6168}. 
+Deep learning architectures have further extended these capabilities: RNN-based frameworks model long-range sequence dependencies\cite{RN6280}, deep networks uncover latent structural changes in non-stationary sequences\cite{RN6169,RN6170}, and CNN and Transformer models have shown promise in high-frequency settings\cite{RN6281}. 
+Nevertheless, these approaches generally require large labelled training sets, offer limited interpretability, and provide little insight into the geometric structure of cross-asset dependency networks.
+
+These limitations collectively point to the need for a methodological framework that is distribution-free, robust to high dimensionality, and capable of capturing the geometric structure of evolving cross-asset networks. 
+Topological data analysis (TDA) offers a promising direction in this regard. 
+Grounded in algebraic topology, TDA extracts shape-based invariants from high-dimensional data without relying on parametric assumptions, making it particularly well-suited to detecting both abrupt and gradual reconfigurations of dependency structures in complex financial networks\cite{ravishanker2019topological,RN5499}. 
+The following section reviews existing TDA applications in financial and cryptocurrency markets, highlighting the gaps that motivate the present study.
+
+\subsection{TDA in Traditional Financial Markets}
+
+The application of TDA to financial markets originated from network-based approaches to systemic risk and crisis propagation. 
+\citet{RN5488} pioneered the investigation of topological structures in global macroeconomic networks, demonstrating how network topology shapes crisis transmission dynamics. 
+Building on this foundation, \citet{RN5643} constructed time-dependent networks from equity price series and applied persistent homology to track structural evolution, successfully detecting precursors to the 2008 financial crisis and the dotcom crash, showing that changes in Betti numbers and persistence diagrams serve as early indicators of approaching regime shifts\cite{RN5646}. 
+The framework has since proven robust across diverse asset classes: \citet{RN5990} demonstrated that TDA norm variance outperformed regression residuals in signalling Bitcoin crashes, \citet{RN5859} showed that the $L_1$ norm of persistence landscapes serves as a leading indicator in CDS markets, and combining persistent homology with machine learning has yielded enhanced predictive accuracy across U.S., Singapore, and Malaysian 
+markets\cite{RN6015,RN5881}.
+
+A parallel strand of research grounds TDA applications in dynamical systems theory, with direct implications for structural break detection. 
+\citet{RN5790} demonstrated that persistent homology can reconstruct phase space structures and distinguish equilibrium types, suggesting its utility for automated change-point identification, a finding further validated through topological analysis of stochastic delay equations\cite{RN5791}. \citet{RN5785} exploited topological features of dynamical attractors to characterise time series via persistence landscapes and silhouettes computed from Rips complexes with time-delay embedding\cite{RN5527,RN6282}. 
+Building on these foundations, \citet{RN5438} extracted Betti numbers and persistent homology features for multi-agent structural break detection in high-dimensional environments, \citet{RN5484} developed scale-dependent topological methods for characterising network structures in equity markets, and \citet{RN3847} demonstrated that TDA-based change-point indicators such as $L_1$ and $L_2$ norms effectively detect structural breaks associated with major global financial events.
+
+Beyond crisis detection, TDA has been extended to portfolio construction and cross-market analysis. 
+Persistence landscape norms have demonstrated superior performance relative to conventional volatility measures in portfolio risk indexing\cite{RN5468,RN5799,RN5946}, while topological features have been shown to vary systematically across industrial sectors and regional markets, capturing heterogeneous connectivity patterns during stress periods\cite{RN5795,RN6087,RN5487}. 
+Recent methodological advances include strictly causal early-warning frameworks for U.S. equity markets\cite{RN3840}, sliding-window topological pattern characterisation around market turmoil\cite{RN3842}, and the integration of TDA distance metrics with Granger causality for crash-time interdependence analysis\cite{RN3845}. 
+Collectively, these studies establish that topological features derived from cross-asset networks consistently capture structural transitions that conventional statistical measures overlook, providing the empirical foundation for extending TDA to cryptocurrency markets.
+
+\subsection{Recent Studies of TDA in Cryptocurrency Markets}
+
+TDA has gained increasing traction in cryptocurrency research, with applications spanning early warning systems, network anomaly detection, and price forecasting. Table~\ref{tab1} summarises the key workflows of existing studies.
+A substantial body of work establishes that topological features provide robust early warning signals ahead of cryptocurrency market crashes and critical transitions. 
+Persistence landscape norms have been shown to peak before crashes in Bitcoin and Ethereum across multiple window configurations\cite{gidea2020topological,saengduean2020topological,bansal2023identifying}, while \citet{rudkin2023topology} demonstrate robustness to noise across broader cryptocurrency selections. 
+Theoretical grounding is provided by \citet{akingbade2024topological}, who link TDA's effectiveness to Log-Periodic Power Law Singularity patterns in price dynamics. 
+\citet{arvanitis2024mild} further integrate persistence landscape measures with the Phillips--Shi--Yu timestamping methodology to detect and timestamp financial bubbles across major cryptocurrency markets. 
+Extending this line of research to cross-market dynamics, \citet{song2025can} document that topological transitions in cryptocurrency networks precede extreme fluctuations in traditional financial markets by 0--5 calendar days with approximately 60\% sensitivity.
+
+A parallel stream applies TDA to anomaly detection and network analysis in blockchain transaction data. 
+\citet{akcora2019bitcoinheist} develop a Mapper-based framework for ransomware detection in Bitcoin transaction graphs, while \citet{islambekov2024topological} employ persistence diagrams derived from simplicial complexes to capture high-order interactions in time-varying Ethereum transaction networks, achieving up to 20\% improvement in anomalous price prediction. 
+Research on multilayer network topology further leverages transaction graph structures for fraud detection and contagion analysis\cite{li2020dissecting, ofori2021topological}.
+Beyond crisis detection, TDA has been applied to price forecasting, where topological features enhance predictive model accuracy\cite{hafez2022ethereum,de2025enhancing}, and to portfolio optimisation via persistence-based clustering methods\cite{rivera2019topological}.
+
+Despite this progress, three critical gaps motivate the present study. 
+First, existing approaches rely primarily on visual inspection or ad-hoc thresholds rather than formal statistical frameworks for change-point detection, lacking rigorous hypothesis testing and error control. 
+Second, most studies analyse cryptocurrencies in isolation, failing to capture cross-asset contagion dynamics through genuinely multivariate topological representations. 
+Third, the relationship between topological break signals and underlying market mechanisms, including regulatory interventions, protocol failures, and liquidity crises, remains insufficiently understood, limiting the economic interpretability of these indicators.
+
+\begin{landscape}
+\begin{table}[htbp]
+\centering
+\caption{Review of TDA Workflows in Cryptocurrency Market Studies}
+\label{tab1}
+\setlength{\tabcolsep}{4pt}
+\small
+\begin{tabular}{
+  >{\raggedright\arraybackslash}p{3cm}
+  >{\raggedright\arraybackslash}p{3.2cm}
+  >{\raggedright\arraybackslash}p{3cm}
+  >{\raggedright\arraybackslash}p{3cm}
+  >{\raggedright\arraybackslash}p{4.5cm}
+  >{\raggedright\arraybackslash}p{4.6cm}}
+\toprule
+\textbf{Reference} & \textbf{Dataset} & \textbf{Period} 
+& \textbf{Data type} & \textbf{Topology workflow} 
+& \textbf{Application}\\
+\midrule
+
+\citet{rivera2019topological} &
+1561 cryptocurrencies &
+May 2013--Jun 2019 &
+Daily market data &
+TD30-VR-PL-L2(H1)-Diff-L2-RFM &
+Portfolio management\\
+
+\citet{gidea2020topological} &
+Bitcoin, Ethereum, Litecoin, Ripple &
+Jan 2016--Dec 2018 &
+Daily log-returns &
+SW50-TD4-VR-PL-L1 \& C1--Kmeans &
+Critical transitions in cryptocurrency time series\\
+
+\citet{li2020dissecting} &
+Ethereum &
+Jun 2015--May 2018 &
+All transactions and coin transfers &
+VR-Betti curve-Betti limit-FDA &
+Topological analysis of transaction networks\\
+
+\citet{saengduean2020topological} &
+Bitcoin, Ethereum &
+Jan 2016--Dec 2018 &
+Daily log-returns &
+SW-TD-VR-L1\&C1--Kmeans &
+Cryptocurrency crash detection\\
+
+\citet{akcora2019bitcoinheist} &
+Bitcoin &
+Jan 2009--Dec 2018 &
+Daily transactions &
+Mapper &
+Ransomware detection\\
+
+\citet{ofori2021topological} &
+Ethereum, Ripple &
+Oct 2016--Mar 2020 &
+All transactions and coin transfers &
+Clique-SPD-Wasserstein\&Bottleneck &
+Multilayer network anomaly detection\\
+
+\citet{hafez2022ethereum} &
+Ethereum &
+Aug 2015--Aug 2021 &
+All transactions and coin transfers &
+VR-Betti numbers-CNN/TCN/LSTM/GRU &
+Price prediction\\
+
+\citet{bansal2023identifying} &
+Bitcoin &
+Jan 2016--Dec 2018 &
+Daily price data &
+VR-PH-Clustering &
+Critical transition detection\\
+
+\citet{rudkin2023topology} &
+Cryptocurrencies (top 16) &
+Sep 2014--Dec 2021 &
+Daily log-returns &
+SW(60)-VR-L1\&L2 &
+Crash early warning\\
+
+\citet{akingbade2024topological} &
+Bitcoin &
+Mar 2021--Apr 2021 &
+Hourly price data &
+SW(48/60/72)-TD(3\&4)-VR-L1-LPPLS &
+Financial bubble detection\\
+
+\citet{islambekov2024topological} &
+Ethereum, Bitcoin &
+2018--2022 &
+Transaction graph data &
+Simplicial complexes-PD-Vectorization &
+Anomaly detection in transaction networks\\
+
+\citet{arvanitis2024mild} &
+Bitcoin, Ethereum, Ripple, Litecoin &
+Aug 2015--Aug 2021 &
+Daily market cap &
+SW(105,200)-VR-L1\&L2-EGARCH &
+Financial bubble detection and timestamping\\
+
+\citet{de2025enhancing} &
+Bitcoin, Ethereum, Binance, XRP, Cardano, Litecoin &
+Jul 2019--Dec 2021 &
+Daily log-returns &
+SW-TD-VR-Persistence entropy/amplitude/Betti numbers-N-BEATS &
+Time series forecasting\\
+
+\citet{song2025can} &
+Cryptocurrencies (top 10) &
+Jan 2021--Apr 2024 &
+Daily log-returns &
+VR-Bottleneck distance-MDS-Mahalanobis distance-Surrogate &
+Early warning signals for traditional financial markets\\
+
+\textbf{Our research} &
+Cryptocurrencies (top 10) &
+\textbf{Aug 2020--Sep 2025} &
+Daily returns \& Volatility &
+SW(21)-Wasserstein/DTW-VR-Betti numbers/Persistence entropy &
+Real-time structural break detection and risk monitoring\\
+
+\bottomrule
+\multicolumn{6}{l}{\footnotesize\textit{Note:} 
+Abbreviations in the \textit{Topology workflow} column are 
+defined in the Section~\ref{List of Abbreviations}: List of Abbreviations.}\\
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\section{Methodology}\label{sec3}
+
+\subsection{Topological Feature Extraction}
+\subsubsection{Simplicial Complexes}
+In TDA, discrete data (e.g., point clouds or networks) are approximated by simplicial complexes so that global shape can be summarized by Betti numbers (connected components Betti-0, one-dimensional cycles \(\beta_1\), voids \(\beta_2\), etc.)\citep{RN2692}. 
+A \(k\)-simplex with ordered vertices \(v_0,\ldots,v_k\) is denoted by \([v_0,\ldots,v_k]\). Its faces are the simplices obtained by deleting any nonempty subset of vertices. A collection \(K\) of simplices on a vertex set \(V\) is a simplicial complex if:
+(i) every face of a simplex in \(K\) is also in \(K\);
+(ii) the intersection of any two simplices in \(K\) is either empty or a common face; and
+(iii) \(K\) is finite (our empirical implementation uses finite complexes).
+The dimension of \(K\) is \(\dim K = \max_{\sigma \in K} \dim \sigma\). The \(k\)-skeleton \(K^{(k)}\) is the subcomplex containing all simplices of dimension at most \(k\).
+
+Let \(C_k(K)\) denote the free abelian group generated by oriented \(k\)-simplices of \(K\).
+The boundary operator \(\partial_k : C_k(K) \to C_{k-1}(K)\) is defined on a basis element by
+\begin{equation}
+\partial_k [v_0,\ldots,v_k]
+=
+\sum_{i=0}^{k} (-1)^i [v_0,\ldots,\widehat{v_i},\ldots,v_k]
+\label{eq:boundary}
+\end{equation}
+where \(\widehat{v_i}\) indicates omission of the vertex \(v_i\).
+The \(k\)-th homology group is
+\begin{equation}
+H_k(K) \;=\; \ker(\partial_k)\big/\operatorname{im}(\partial_{k+1}),
+\qquad
+\beta_k \;=\; \operatorname{rank}\, H_k(K)
+\label{eq:homology}
+\end{equation}
+and \(\beta_k\) are the Betti numbers used as topological features. In our application, these features are computed along a VR filtration built from the embedded time-series vectors, yielding persistence summaries that track the evolution of global structure across scales.
+
+\subsubsection{Vietoris--Rips Complex}
+Given a finite point set \(X=\{x_1,\ldots,x_n\}\) in a metric space with distance \(d(\cdot,\cdot)\) and a threshold \(\varepsilon \ge 0\), the VR complex is
+\begin{equation}
+\mathrm{VR}_X(\varepsilon)
+= \big\{ [x_{i_0},\ldots,x_{i_k}] \;:\; d(x_{i_p},x_{i_q}) \le \varepsilon \text{ for all } 0\le p<q\le k \big\}.
+\label{eq:vr-def}
+\end{equation}
+Intuitively, an edge is included when two points are within \(\varepsilon\), and a \(k\)-simplex is included when all its pairwise edges are present. The Betti numbers \(\beta_0,\beta_1,\beta_2,\ldots\) computed on \(\mathrm{VR}_X(\varepsilon)\) quantify, respectively, the number of connected components, one-dimensional cycles, and higher-dimensional voids, thereby capturing the global shape of the data across scales\citep{RN2693}.
+
+\subsubsection{Persistent Homology}
+
+Persistent homology tracks topological structure across multiple spatial scales\citep{RN2718}. Starting from a distance matrix among embedded observations, we construct a VR filtration by increasing a proximity threshold \(\varepsilon \ge 0\). For each scale \(\varepsilon\), the homology group \(H_k\big(\mathrm{VR}_X(\varepsilon)\big)\) is computed and summarized by the Betti number:\(
+\beta_k(\varepsilon)=\operatorname{rank}\, H_k\big(\mathrm{VR}_X(\varepsilon)\big)\).
+As \(\varepsilon\) grows, \(k\)-dimensional features (connected components for \(k=0\), loops for \(k=1\), cavities for \(k=2\), etc.) appear and disappear. The collection of birth and death times \(\mathcal{D}_k=\{(b_i,d_i)\}_i\) forms the \(k\)-th persistence diagram. Betti curves can be written directly from the diagram as
+\(
+\beta_k(\varepsilon)=\{\, i:\; b_i \le \varepsilon < d_i \,\}\)\citep{RN3239}.
+
+\subsubsection{Persistence Entropy}
+
+Persistence entropy is a scalar summary of topological complexity derived from the distribution of bar lengths in a persistence diagram\citep{RN3930}. Let \(\ell_i=d_i-b_i\) be the lifetime of bar \(i\), and define normalized weights $p_i = \ell_i \Big/ \sum_{j} \ell_{j}$.
+In this study,\(i\) and \(j\) are asset indices referring to cryptocurrencies in the sample, so that \(i,j \in \{1,\dots,n\}\), where \(n\) denotes the number of assets considered in the analysis.
+The persistence entropy(PE) (using the natural logarithm) is \(-\sum_i p_i \log p_i . \label{eq:persistence-entropy}\)
+Larger values of \(\mathrm{PE}\) indicate a more diffuse distribution of lifetimes and greater topological heterogeneity.
+
+\subsection{Sliding Window Strategy}
+To reconstruct a multi-dimensional state-space trajectory from the observed univariate series \(x_t\), we apply sliding window following Takens' theorem\cite{noakes1991takens}. For embedding dimension \(m\) (window size) and time lag \(\tau\), the embedded vector is
+\(
+\mathbf{X}_t = \big(x_t,\, x_{t-\tau},\, x_{t-2\tau},\, \ldots,\, x_{t-(m-1)\tau}\big) \in \mathbb{R}^{m}.
+\label{eq:delay-embed}
+\)
+The parameter \(m\) controls the effective memory length of the reconstructed system, whereas \(\tau\) governs the dependence between coordinates and the smoothness of the recovered trajectory. 
+We set the sampling frequency to daily observations and choose \(m=21\), which approximates one trading month and is widely used as a medium-term horizon in empirical finance\citep{RN4307}. 
+This length is sufficient to capture local trends and cyclical behavior without over-smoothing short-lived structural changes, and it corresponds to a realistic trading cycle\citep{RN2713}. 
+From a TDA perspective, each \(\mathbf{X}_t\) aggregates the past 21 days of system states, and distances between these points are then used to construct VR complexes, allowing us to track the evolution of price geometry over time.
+We set the time lag to \(\tau=1\) day. 
+This choice preserves continuity in the reconstructed trajectory and retains information about gradual state changes. 
+Larger lags can skip over local neighborhoods, introduce spurious jumps, and increase noise in the resulting topological summaries\citep{RN4308}. 
+To ensure that the empirical findings are not driven by this baseline specification alone, we report a systematic robustness analysis in Appendix~\ref{appendix A.1}, where we evaluate all combinations of \(m \in \{7,14,21,28\}\) and \(\tau \in \{1,2,3\}\). 
+
+\begin{figure}[htbp]    
+    \centering
+    \includegraphics[width=\textwidth]{Fig1.pdf}
+    \caption{Data analysis pipeline diagram}
+    \label{Fig1}
+\end{figure}
+
+\subsection{Wasserstein Distance and DTW}
+The Wasserstein distance provides a geometric measure of dissimilarity between probability distributions. 
+It is widely used in finance, imaging, natural language processing, and TDA because it accounts not only for the magnitude of probability mass differences but also for where the discrepancies occur in the sample space, thereby retaining structural information that divergences such as KL or Euclidean distances may overlook\citep{RN3932}.
+
+Let \(P\) and \(Q\) be probability measures on \(\mathbb{R}\) with cumulative distribution functions \(F_{P}(\cdot)\) and \(F_{Q}(\cdot)\), and with finite \(p\)-th moments for \(p \ge 1\). The \(p\)-Wasserstein distance is
+\begin{equation}
+W_p(P,Q)
+= \left(
+\inf_{\gamma \in \Gamma(P,Q)}
+\int_{\mathbb{R}\times \mathbb{R}} |x-y|^{p}\, d\gamma(x,y)
+\right)^{1/p},
+\label{eq:wasserstein-def}
+\end{equation}
+where \(\Gamma(P,Q)\) denotes the set of joint distributions on \(\mathbb{R}\times\mathbb{R}\) with marginals \(P\) and \(Q\), \(\gamma(x,y)\) specifies a transport plan that moves mass from \(x\) to \(y\). The integral computes the total transportation cost under a plan, and the infimum selects the plan of minimal cost. In one dimension, \eqref{eq:wasserstein-def} admits the quantile representation
+\begin{equation}
+W_p(P,Q)
+= \left(
+\int_{0}^{1} \big| F_{P}^{-1}(u) - F_{Q}^{-1}(u) \big|^{p}\, du
+\right)^{1/p},
+\label{eq:wasserstein-quantile}
+\end{equation}
+which is the \(L^{p}\) distance between the two quantile functions. 
+In TDA applications, Wasserstein distances was computed using 'scipy.stats.wasserstein\_distance($p = 1$)' are also employed to compare persistence diagrams by treating them as discrete measures.
+
+Dynamic time warping (DTW) measures similarity between time series by allowing nonlinear, monotone alignments along the time axis\citep{RN3931}. Given sequences \(X=(x_{1},\ldots,x_{T})\) and \(Y=(y_{1},\ldots,y_{S})\), let the local cost be \(c(i,j)=d(x_i,y_j)\) for a chosen pointwise metric \(d(\cdot,\cdot)\) (e.g., Euclidean distance). Define the cumulative cost matrix \(D \in \mathbb{R}^{T\times S}\) recursively:
+\begin{equation}
+\begin{aligned}
+D(1,1) &= c(1,1),\\
+D(i,1) &= c(i,1) + D(i-1,1)\quad (i=2,\ldots,T),\\
+D(1,j) &= c(1,j) + D(1,j-1)\quad (j=2,\ldots,S),\\
+D(i,j) &= c(i,j) + \min\{ D(i-1,j),\, D(i,j-1),\, D(i-1,j-1) \} \quad (i\ge2,\, j\ge2).
+\end{aligned}
+\label{eq:dtw-recursion}
+\end{equation}
+A warping path \(W=\{(i_k,j_k)\}_{k=1}^{K}\) runs from \((1,1)\) to \((T,S)\) with unit steps and monotone indices. The DTW distance is the minimal path cost,
+\begin{equation}
+\operatorname{DTW}(X,Y) \;=\; \min_{W} \sum_{(i,j)\in W} c(i,j)
+\;=\; D(T,S),
+\label{eq:dtw-distance}
+\end{equation}
+optionally normalized by path length \(K\) for comparability across series of different durations. DTW is particularly effective when two series share similar shapes but exhibit local time distortions such as stretches or compressions.
+
+The choice of Wasserstein distance and DTW reflects the limitations of simpler similarity measures in the present setting. 
+Euclidean distance is pointwise and therefore sensitive to strict temporal alignment, while correlation-based measures summarize only overall linear co-movement and may overlook local structural differences. In addition, divergence-based measures such as KL require density estimation and are less robust when empirical supports differ. By contrast, Wasserstein distance preserves the geometry of distributional displacement across rolling windows \citep{RN3932}, whereas DTW preserves similarity of temporal shape under local time distortions \citep{RN3931}. These properties make them better suited to detecting structural change in evolving cross-asset dependence patterns.
+
+In this study we proceed as follows(Figure \ref{Fig1}):
+\begin{enumerate}
+\item For each time index t, we form a sliding window $W_t$=21 and delay $\gamma=1$.Each window is treated as one point in an m-dimensional state space(Fig \ref{Fig1}-A).
+
+\item We compute pairwise distances between windows $\{W_t\}$ using DTW or the Wasserstein distance, producing a time-varying dissimilarity matrix.
+
+\item Using the distance matrix, we build VR complexes
+over a grid of scales $\varepsilon$ and compute persistent homology(Fig \ref{Fig1}-B).
+\item Birth–death events across scales yield persistence diagrams, Betti numbers, and persistence entropy, which summarize the evolution of geometric structure in the financial time series.
+\end{enumerate}
+
+In our empirical implementation, the baseline specification uses \(m=21\) and \(\tau=1\), while robustness is evaluated over alternative \((m,\tau)\) combinations. 
+Persistent homology is computed from the full cross-asset distance matrix using the Python library \texttt{ripser} (\texttt{Ripser.py}\citep{RN2753}), with homology restricted to dimension 1 and Betti-curve summaries evaluated on 50 equally spaced filtration values up to a method-specific maximum radius. 
+From a computational perspective, the dominant cost arises from constructing the pairwise distance matrices, with per-pair complexity \(O(m^2)\) for DTW and \(O(m \log m)\) for the one-dimensional Wasserstein distance, whereas the persistent-homology step remains computationally modest in our setting because the number of assets is small and the VR complex is computed only up to its 2-skeleton.
+
+\section{Empirical Results}\label{sec4}
+\subsection{Data Description}
+
+We select the top-10 cryptocurrencies by market capitalisation as of 21 September 2025 to represent the large-cap segment of the cryptocurrency market.
+As reported in Table~\ref{tab:market_cap_share}, these ten assets collectively account for 93.11\% of total cryptocurrency market capitalisation, with Bitcoin alone contributing 58.82\%, confirming that the sample captures the most liquid and economically significant assets while providing a balanced and relatively stable cross-asset panel for constructing distance matrices and topological summaries. 
+The sample period spans 10 August 2020 to 26 September 2025, with daily closing price data collected from CoinMarketCap. 
+This period encompasses several major and heterogeneous stress episodes, including regulatory shocks, protocol failures, exchange collapses, and broader market turbulence, making it a suitable setting for evaluating structural break detection performance within a unified empirical framework.
+
+\begin{table}[htbp]
+\centering
+\caption{Market Capitalisation Share of Top-10 Cryptocurrencies}
+\label{tab:market_cap_share}
+\setlength{\tabcolsep}{4pt}
+\small
+\begin{tabular}{clll r S[table-format=2.2] S[table-format=2.2]}
+\toprule
+\textbf{Rank} & \textbf{Name} & \textbf{Symbol} 
+& \textbf{Market Cap (USD)} 
+& \textbf{Price (USD)} 
+& {\textbf{Share (\%)}} 
+& {\textbf{Cum.\ Share (\%)}} \\
+\midrule
+1  & Bitcoin      & BTC  & \$2,297.3B & 115,306.10 & 58.82 & 58.82 \\
+2  & Ethereum     & ETH  & \$537.3B   & 4,451.33   & 13.76 & 72.58 \\
+3  & XRP          & XRP  & \$177.7B   & 2.97       & 4.55  & 77.13 \\
+4  & Tether       & USDT & \$172.0B   & 1.00       & 4.40  & 81.53 \\
+5  & BNB          & BNB  & \$146.0B   & 1,048.67   & 3.74  & 85.27 \\
+\midrule
+6  & Solana       & SOL  & \$128.5B   & 236.58     & 3.29  & 88.56 \\
+7  & USDC         & USDC & \$74.0B    & 1.00       & 1.89  & 90.45 \\
+8  & Dogecoin     & DOGE & \$39.4B    & 0.26       & 1.01  & 91.46 \\
+9  & TRON         & TRX  & \$32.5B    & 0.34       & 0.83  & 92.29 \\
+10 & Cardano      & ADA  & \$31.7B    & 0.89       & 0.81  & 93.11 \\
+\midrule
+\multicolumn{5}{l}{\textit{Top-1 to Top-5 subtotal}}  & 85.27 & \\
+\multicolumn{5}{l}{\textit{Top-6 to Top-10 subtotal}} & 7.84  & \\
+\multicolumn{5}{l}{\textbf{Top-10 cumulative total}}  
+  & \textbf{93.11} & \\
+\bottomrule
+\multicolumn{7}{p{0.95\textwidth}}{\footnotesize
+  \textit{Note:} Data retrieved from \texttt{CoinMarketCap.com} as of 
+  21 September 2025. Market capitalisation values are rounded to one 
+  decimal place in billions (B). The top-10 assets collectively account 
+  for 93.11\% of total cryptocurrency market capitalisation and 
+  constitute the analytical sample of this study.}\\
+\end{tabular}
+\end{table}
+
+\subsection{Data Preprocessing}
+To extract topological features from cryptocurrency data via TDA, we first select the input variables. We employ log-returns and Parkinson volatility as the primary inputs, as both capture intraday price dynamics while providing complementary information content, stability properties, and sensitivity to noise. These series will subsequently be embedded into VR complexes to compute Betti numbers and persistence entropy.
+We define the log return as
+$r_t = \ln(P_t / P_{t-1})$,
+\label{eq:log-return}
+where \(P_t\) denotes the closing price at time \(t\). Log returns are standard in financial time-series modeling and provide a scale-free measure of proportional price changes\citep{RN4353}.
+Parkinson volatility \cite{parkinson1980extreme} is a range-based estimator of historical volatility that utilizes intraday high--low information. 
+For period \(t\), it is defined as
+$\sigma_{P,t} = (2\sqrt{\ln 2})^{-1}\ln(H_t / L_t)$\label{eq:parkinson},
+where \(H_t\) and \(L_t\) are the intraday high and low prices, respectively. 
+By exploiting both extre mes, this estimator more fully reflects true price variability than close-to-close measures and is particularly sensitive to tail movements, making it informative about market instability.
+
+\subsection{Empirical Workflow}
+We first compile a chronology of major risk events in cryptocurrency markets from public sources (price crashes and spikes, regulatory announcements, exchange incidents, and episodes of pronounced market fear, among others). The event set spans 2020--2025 and documents significant structural breaks across the cryptocurrency market. The full list are reported in the Appendix \ref{tab:crypto-events}. Event dates are treated as exogenous shocks and serve to validate how promptly and accurately topological indicators respond to risk.
+
+Evaluating only post hoc classification is insufficient for systemic risk early warning, where indicators generate continuous risk signals\citep{RN5881}. 
+We therefore use threshold–free performance measures based on the receiver operating characteristic (ROC) curve and its area under the curve (AUC)\citep{Fawcett2006,Hanley1982}. 
+Let \(s_t\) denote a risk score constructed from a given indicator (e.g., Betti-0, Betti-1, or persistence entropy), and let \(Y_t\in\{0,1\}\) be a binary label, where \(Y_t=1\) indicates that day \(t\) falls within a pre-specified event window around an event date (our baseline uses a 21-day pre-event window) and \(Y_t=0\) otherwise. 
+For a threshold \(\theta\),
+\begin{equation}
+\mathrm{TPR}(\theta)=\mathbb{P}(s_t\ge \theta \mid Y_t=1), 
+\qquad 
+\mathrm{FPR}(\theta)=\mathbb{P}(s_t\ge \theta \mid Y_t=0).
+\label{eq:tpr-fpr}
+\end{equation}
+The ROC curve is the set \(\{(\mathrm{FPR}(\theta),\mathrm{TPR}(\theta)):\theta\in\mathbb{R}\}\). Curves closer to the upper left corner indicate stronger discrimination. The AUC is bounded between 0 and 1 and admits the equivalent probabilistic interpretation.
+\begin{equation}
+\mathrm{AUC}=\int_{0}^{1}\mathrm{TPR}\!\left(\mathrm{FPR}^{-1}(u)\right)\,du
+\;=\; \mathbb{P}\!\left(S^{+}>S^{-}\right),
+\label{eq:auc}
+\end{equation}
+where \(S^{+}\stackrel{d}{=}s_t\mid Y_t=1\) and \(S^{-}\stackrel{d}{=}s_t\mid Y_t=0\) are independent draws. An AUC of \(0.5\) corresponds to random guessing.
+
+Our empirical workflow is as follows:
+\begin{enumerate}
+  \item Structural change detection. For each indicator, we test whether its level or distribution exhibits a significant structural change within the 21-day pre-event window relative to non-event periods (Fig.~\ref{fig:Fig2}), and repeat the analysis using 10, 14 and 30 day windows to confirm robustness(Appendix \ref{app:roc-auc} ).
+  \item Binary evaluation. Construct labels \(Y_t\) based on the event calendar, compute ROC curves via, and summarize performance with AUC(Fig.~\ref{fig:Fig3}(left)).
+  \item Indicator comparison. Convert Betti-0, Betti-1, and persistence entropy into standardized risk scores \(s_t\) (with direction adjusted so higher values imply higher risk), and compare their AUCs as measures of structural break detection power(Fig.~\ref{fig:Fig3}(right)).
+\end{enumerate}
+
+\subsection{Event-based Evaluation and Case Studies }
+To further assess the ability of topological indicators to recognize market shocks in advance, we label event days as positives and non-event days as negatives, and evaluate each indicator with ROC curves and the associated area under the curve (AUC) within the 21-day pre-event window defined in the pipeline. 
+The ROC and AUC summarize how well a univariate signal discriminates imminent extreme events without committing to a fixed threshold.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fig2.jpg}
+    \caption{Time series evolution of topological indicators}
+    \label{fig:Fig2}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fig3.jpg}
+    \caption{Event identification performance of topological 
+    indicators: AUC values (left) and ROC curves (right)}
+    \label{fig:Fig3}
+\end{figure}
+
+Overall, Betti-0 based indicators outperform both Betti-1 and entropy-type measures. 
+The best performer is \texttt{Log-DTW Betti0} with \(\mathrm{AUC}=0.618\), indicating the strongest forward-looking discrimination for the buildup of market stress and the onset of risk. 
+The indicators \texttt{Vol-DTW Betti0}, \texttt{Log-Wasserstein Betti0}, \texttt{Vol-Wasserstein Betti0} also perform well with \(\mathrm{AUC}=0.613\), \(\mathrm{AUC}=0.612\) and \(\mathrm{AUC}=0.607\), respectively, suggesting that connectivity changes captured by Betti-0 consistently track the evolution of structural fragility.
+By contrast, the Betti-1 family (which reflects the number of closed loops) and entropy measures (which summarize global structural complexity or disorder) yield AUC values close to \(0.5\), implying weaker structural break detection power than Betti-0. 
+These results indicate that systemic stress in crypto markets tends to manifest first through local clustering and structural fragmentation, rather than through the breakdown of long persistence cycles.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{Fig4.pdf}
+\caption{Event-level case studies of \texttt{log-DTW Betti-0} around four representative cryptocurrency market events. 
+}
+\label{fig4}
+\end{figure}
+To make the topological patterns around major market disruptions more transparent, Figure~\ref{fig4} presents four representative event-level case studies spanning three event categories: Market Milestone (BTC Bull Market Peak, 2021-04-10), Regulation (China Comprehensive Crypto Ban, 2021-09-24), and Systemic Failure (Terra/LUNA Collapse, 2022-05-01; FTX Collapse, 2022-11-01). For each event, the upper panel shows the standardized \texttt{log-DTW Betti-0} trajectory together with its 5-day rolling mean over the window $[-35,+15]$, while the lower panel reports the corresponding VIX and BVOL dynamics over the same horizon. The shaded region marks the pre-event evaluation window $[-21,0]$.
+Three qualitatively distinct topological patterns emerge. First, the Market Milestone case exhibits a strong rise in Betti-0 around the event, consistent with increasing market fragmentation and uneven capital rotation near the peak of the bull cycle. Second, the Regulation case exhibits an initially elevated Betti-0 that declines monotonically across the pre-event window, falling from $z \approx +1.3$ at day $-21$ to $z \approx -1.1$ at day $-1$, without sustaining the systematic fragmentation buildup characteristic of endogenous market crises. This declining trajectory suggests that cross-asset connectivity gradually consolidates ahead of the regulatory shock, consistent with partial market anticipation of the intervention rather than a structural stress buildup. Third, both Systemic Failure events display a similar pattern of pre-event topological contraction followed by abrupt reversal at crisis onset: Betti-0 remains suppressed before the event and then rises sharply once the shock materializes. This suggests that systemic crypto failures are preceded by temporary cross-asset homogenization and followed by sudden market fragmentation when the crisis is released.
+These case studies complement the category-stratified AUC results by showing that different event types are associated with different topological signatures. In particular, market-milestone events are characterized by rising fragmentation, regulatory shocks by an initially elevated but monotonically declining pre-event topology, and systemic failures by pre-event contraction followed by post-event dislocation. The visual evidence therefore helps explain why TDA performs best for market-cycle events, while volatility- and sentiment-based indicators retain an advantage in crisis-type shocks originating within the crypto ecosystem.
+
+\subsection{Early-Warning Performance Across Evaluation Windows}
+The robustness analysis across alternative window lengths shows that the relative advantage of Betti-0 is not driven by a single parameter choice. However, such evidence alone does not establish whether the indicator has genuine early-warning content. 
+To address this issue, we further evaluate the four Betti-0 indicators across strictly pre-event and post-event windows, namely \([-21,0]\), \([-14,0]\), \([-7,0]\), \([0,+7]\), and \([0,+21]\)(Figure~\ref{fig5}). 
+The results show that all four Betti-0 specifications retain meaningful discriminatory power even in the purely pre-event windows, with AUC values above 0.59 and the best performance reaching about 0.64 in the \([-21,0]\) window. 
+This indicates that Betti-0 captures anticipatory structural changes before crisis onset rather than only contemporaneous market disruption. 
+At the same time, performance becomes even stronger in the post-event windows, especially in \([0,+21]\), suggesting that the same topological signals also track the amplification and persistence of market stress after the event. 
+Taken together, these findings imply that Betti-0 serves not only as a robust structural-break indicator, but also as a meaningful early-warning signal with additional value for ongoing crisis monitoring.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{Fig5.pdf}
+\caption{Performance of Four Betti-0 TDA Indicators Across Evaluation Windows}
+\label{fig5} 
+\end{figure}
+
+\section{Benchmark Tests}\label{sec5}
+To evaluate the empirical usefulness of the proposed topological indicators, we adopt a two-stage benchmark design. 
+In the first stage, we compare the ROC-AUC performance of the full set of TDA indicators including Betti-0, Betti-1, and persistent entropy under alternative distance constructions, against a group of conventional benchmark variables, namely BVOL, BTC Rogers volatility, VIX, Fear\&Greed Index, S\&P 500. 
+In the second stage, we use the indicator time series as inputs to three standard change-point detection algorithms: PELT,  BinSeg and CUSUM, and evaluate detection performance using F1 scores relative to the catalogued event windows. 
+We then compare these results with a broader set of benchmark methods, including LSTM, Transformer, DCC-GARCH, and Graphical LASSO. This two-stage design allows us to distinguish between general discriminatory power and actual break-detection effectiveness.
+
+\subsection{ROC-AUC Comparison with Traditional Market Benchmarks}
+We begin by comparing the full set of TDA indicators with a range of traditional market, volatility, and sentiment benchmarks using ROC-AUC. 
+This first-stage exercise is intended to evaluate the intrinsic discriminatory power of each indicator in a threshold-free manner. 
+The benchmark set includes BVOL, BTC Rogers volatility, VIX, the Fear \& Greed Index, S\&P 500 returns, and 7-day S\&P 500 volatility, while the TDA set includes Betti-0, Betti-1, and persistent entropy under both log-price and volatility inputs and under DTW and Wasserstein distance constructions.
+These benchmark variables are chosen to represent complementary dimensions of market conditions that are commonly used in empirical finance and crypto-market monitoring. 
+ BVOL provides a cryptocurrency-specific volatility benchmark based on Bitcoin market conditions\citep{RN4320} while VIX serves as a proxy for broad market fear and expected equity-market volatility.
+BTC Rogers volatility captures realized volatility directly from Bitcoin price data and therefore offers a model-free measure of market turbulence\citep{RN4321}. 
+The Fear \& Greed Index is included to capture cryptocurrency-specific investor sentiment. 
+Finally, S\&P 500 returns and 7-day S\&P 500 volatility are introduced to account for broader equity-market performance and short-horizon macro-financial uncertainty, which may spill over into cryptocurrency markets. 
+Taken together, these variables provide a natural benchmark set against which the additional structural information contained in the TDA indicators can be assessed.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fig6.pdf}
+    \caption{ROC-AUC results of topological indicators and benchmark comparisons}
+    \label{fig6}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{Fig7.png}
+\caption{ROC Curves for Top-Performing Indicators}
+\label{fig7}
+\end{figure}
+The results show a clear and stable pattern: the four Betti-0 specifications consistently achieve the strongest ROC-AUC performance, outperforming not only Betti-1 and persistent entropy, but also all conventional benchmark indicators. 
+This finding suggests that market fragmentation, as captured by Betti-0, is the most informative topological signal for detecting structural stress in the cryptocurrency market(Figure~\ref{fig6}).
+By contrast, Betti-1 and persistent entropy appear to contain useful but less discriminative information, which motivates our subsequent focus on the leading Betti-0 indicators.
+Figure~\ref{fig7} further illustrates this result by plotting the ROC curves of the four leading Betti-0 indicators together with the strongest conventional benchmark, BVOL. 
+The curves show that the Betti-0 specifications consistently lie above the benchmark over most threshold ranges, confirming that their advantage is not driven by a single operating point but reflects more robust discriminatory power across the full ROC profile.
+And repeat the analysis with alternative window lengths of 10, 14, 21 and 30 days to verify robustness in Appendix \ref{app:f1-score}.
+
+\subsection{Structural-break Detection Performance Across Classical and Modern Benchmarks}
+Having identified the strongest topological signals in the ROC-AUC comparison, we next examine whether they remain superior when used as inputs to explicit structural-break detection procedures. 
+To this end, we take the four leading Betti-0 indicators together with the main conventional benchmark series(BVOL, BTC Rogers volatility, VIX, the Fear \& Greed Index, and S\&P 500-based indicators) and apply three standard change-point detection algorithms: PELT\citep{RN4351}, CUSUM\citep{page1963}, and BinSeg\citep{RN4352}. 
+These methods are included because they represent complementary and widely used approaches to detecting structural breaks in time-series data. 
+For each indicator series, we apply three change-point detection procedures implemented in the \texttt{ruptures} package: PELT with an RBF cost and penalty \(\log n\), Binary Segmentation with an RBF cost and \(n\_bkps=10\), and a linear-kernel change-point procedure labeled as CUSUM with \(n\_bkps=10\). 
+Detected break points are converted to event dates and evaluated against the catalogued events using precision, recall, and F1 scores under a \(\pm 21\)-day tolerance window.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Fig8.pdf}
+    \caption{Topological indicators and benchmark comparisons for structural break detection}
+    \label{fig8}
+\end{figure}
+
+Figure \ref{fig8} reports the time-series evolution of the four Betti-0 indicators together with several conventional benchmark variables, with structural break points identified by three standard change-point detection algorithms: PELT, CUSUM, and BinSeg.
+The figure reveals two main patterns.
+First, the Betti-0 series display visually clear regime shifts, especially around major stress episodes in early 2021 and selected later market disruptions. 
+Break points detected from the TDA indicators tend to cluster around these periods across all three algorithms, suggesting that Betti-0 captures meaningful reorganization in the cross-asset dependence structure. 
+Among the three detection methods, PELT produces the densest set of break points, whereas CUSUM and BinSeg are more parsimonious, but the main stress periods remain visible across algorithms.
+Second, compared with the benchmark variables, the Betti-0 indicators exhibit more distinct step-like transitions and more concentrated break detections. 
+By contrast, variables such as the S\&P 500, VIX, BTC Rogers volatility, Fear \& Greed, and BVOL often show either smoother long-run variation or noisier local fluctuations, leading to less focused structural-break patterns. 
+This visual evidence is consistent with the later benchmark results: the leading Betti-0 indicators provide more operationally useful signals for structural-break detection than the conventional market, volatility, and sentiment benchmarks.
+
+To formalize this visual comparison and extend it beyond the conventional benchmark variables shown in Figure~\ref{fig9}, we next evaluate structural-break detection performance using F1 scores and additionally incorporate machine-learning and dynamic-dependence benchmarks.
+To further position the proposed framework relative to modern alternatives, we also compare the resulting performance with LSTM\citep{RN4322}, Transformer\citep{RN2766}, DCC-GARCH\citep{RN4323}, and Graphical LASSO\citep{RN4324}. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Fig9.pdf}
+    \caption{F1 results of topological indicators and benchmark comparisons}
+    \label{fig9}
+\end{figure}
+
+Figure~\ref{fig9} shows that the structural-break detection benchmark is clearly led by the TDA-based indicators, especially the Betti-0 specifications under DTW and Wasserstein constructions. 
+This pattern is economically intuitive. 
+Betti-0 measures the number of connected components in the cross-asset dependence structure, so it reacts directly when the market shifts from a relatively coherent configuration to a more fragmented one. 
+Because major disruption episodes in cryptocurrency markets are often accompanied by precisely this kind of structural reorganization, Betti-0 provides a clearer and more stable signal for break detection than the alternative indicators.
+By contrast, the conventional benchmark variables such as VIX, BVOL, BTC Rogers volatility, the Fear \& Greed Index, and S\&P-based measures typically occupy the middle of the ranking. 
+These indicators contain useful information about stress, volatility, or sentiment, but they summarize only limited aspects of market conditions and do not directly encode changes in the full cross-asset dependence architecture.
+As a result, they can react to turbulence without consistently isolating the deeper structural breaks that the TDA indicators are designed to capture.
+
+A similar interpretation helps explain the weaker performance of the additional machine-learning and dynamic-dependence benchmarks. 
+Methods such as LSTM and Transformer are well suited to modeling sequential dependence, but in the present setting they must infer crisis-relevant structural changes indirectly from relatively limited event data, which may reduce their effectiveness. 
+DCC-GARCH and Graphical LASSO, in turn, focus on time-varying or sparse dependence structures, but they do not summarize the multi-scale global topology of the market in the same way as persistent-homology-based indicators. 
+This helps explain why they remain below the leading TDA specifications in F1 performance. Overall, the ranking suggests that structural-break detection in cryptocurrency markets depends less on modeling local dynamics alone than on capturing system-level reorganization in cross-asset connectivity, which is precisely where the Betti-0 indicators are strongest.
+
+\subsection{An Illustrative Betti-0 Timing Strategy}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{Fig10.png}
+\caption{TDA Strategies vs Buy \& Hold}
+\label{fig10}
+\end{figure}
+To illustrate the potential practical relevance of the proposed topological indicators, we implement a simple signal-based timing strategy using the best-performing Betti-0 specification. The design of the strategy is motivated by our event-study evidence, which shows that systemic crypto failures are often preceded by depressed Betti-0 values, consistent with pre-crisis market homogenization.
+Specifically, at each date \(t\), we compare the current Betti-0 signal with its rolling 252-day distribution. When Betti-0 falls below the 20th percentile of this trailing window, the portfolio is moved to cash as a precautionary risk-management response. When the signal recovers above the threshold, the portfolio re-enters the market with an equal-weight allocation across the cryptocurrency universe considered in the paper. We apply a transaction cost of 0.1\% per trade.
+
+Figure~\ref{fig10} compares the cumulative performance of this TDA-based strategy with a passive Buy-and-Hold benchmark over the period 2021--2025. It also reports the corresponding performance metrics. 
+The TDA strategy achieves a total return of 199.81\%, compared with 179.07\% for Buy-and-Hold. At the same time, annualized volatility declines from 54.60\% to 50.16\%, while the Sharpe ratio increases from 0.7039 to 0.7524 and the Calmar ratio rises from 0.3934 to 0.4234. Maximum drawdown remains broadly similar across the two strategies (-67.18\% for Buy-and-Hold versus -67.01\% for the TDA strategy).
+
+Taken together, these results suggest that Betti-0 may have practical value as a complementary portfolio-risk signal. A simple rule based on low Betti-0 states improves return and risk-adjusted performance relative to a passive benchmark, while maintaining comparable downside drawdown. We therefore interpret this exercise as preliminary evidence that topology-based indicators can be translated into implementable risk-management rules, although a more comprehensive portfolio study remains an important direction for future work.
+
+
+
+\section{Conclusions}\label{sec6}
+
+\subsection{Main Findings and Contributions}
+In highly volatile and rapidly evolving cryptocurrency markets, conventional measures based solely on correlations or univariate volatility struggle to capture the complex structural patterns jointly formed by prices and trading volumes. To address this gap, we integrate persistence homology in TDA  to characterize multi-asset, multi-scale topological dynamics.
+
+We construct a multivariate time series of major cryptocurrencies and employ a sliding window of length 21 with a time delay of 1. 
+For each window, we compute pairwise dissimilarities between assets using Wasserstein or DTW distances, yielding a time-indexed distance matrix. 
+This matrix is then treated as the geometric input for persistent homology: at each time $t$, the distances define a weighted network on which we build a VR filtration to obtain a persistence diagram $D_t$. 
+From each diagram we extract: Betti numbers(Betti-0, Betti-1) capturing the evolution of connected components and one-dimensional cycles across filtration scales, persistence entropy summarizing the dispersion and complexity of the barcode. 
+Our results show that the TDA indicators provide a useful structural view of how the cryptocurrency market evolves across different phases of stress. Among them, Betti-0 is the most informative indicator. Economically, Betti-0 measures the number of connected components in the cross-asset network, so a rise in Betti-0 means that the market is no longer moving as one coherent system but is instead splitting into more weakly connected groups. This pattern is consistent with market fragmentation and weakening cohesion during periods of stress, which helps explain why Betti-0 performs best as an early-warning signal.
+By contrast, Betti-1 captures loop-like higher-order relations among assets. These structures are more difficult to interpret economically and are also more fragile, because they depend on the precise arrangement of several pairwise connections rather than on the broader connectivity pattern of the market. 
+As a result, Betti-1 is less stable and generally less informative than Betti-0 in detecting structural breaks.
+Persistent entropy summarizes the overall complexity of the persistence diagram in a single scalar. In our results, it is useful for describing broad market phases: entropy tends to fall before major disruptions, suggesting that the market becomes more ordered and synchronized, while it rises again during recovery as heterogeneity returns. 
+However, because persistent entropy compresses the full topological structure into one summary measure, it is less sensitive than Betti-0 to the specific fragmentation patterns that appear to be most relevant for crisis detection.
+Taken together, these findings suggest that the three indicators capture different aspects of market structure. 
+Betti-0 is most effective for identifying fragmentation and stress buildup, Betti-1 reflects more fragile higher-order loops, and persistent entropy captures broad changes in overall structural complexity.
+
+Taken together, our contributions are threefold:
+\begin{enumerate}
+  \item We propose a TDA-based empirical framework for analyzing structural change in cryptocurrency markets. Specifically, we combine sliding-window embedding, DTW/Wasserstein distance construction, Vietoris--Rips filtration, and persistent-homology-based summaries to track the evolution of cross-asset market structure over time.
+  
+  \item We show that the resulting topological indicators provide useful information about market stress and structural breaks. In particular, Betti-0 emerges as the most informative and stable indicator, while Betti-1 and persistent entropy capture complementary aspects of higher-order topology and overall structural complexity.
+  
+  \item We provide evidence that TDA-based indicators may serve as useful complementary signals for early-warning monitoring and structural risk assessment in cryptocurrency markets, especially in settings where changes in cross-asset dependence and market fragmentation are of interest.
+\end{enumerate}
+
+\subsection{Practical Implications}
+The results of this study have practical relevance for market participants, risk managers, and regulators. 
+First, the proposed TDA-based indicators can serve as supplementary early-warning signals for structural stress in cryptocurrency markets. 
+In particular, Betti-0 provides an interpretable measure of market fragmentation, capturing the extent to which the cross-asset dependence structure breaks into more weakly connected groups before stress is fully reflected in conventional price- or volatility-based indicators.
+Second, because the framework is built on the evolving cross-asset dependence structure rather than on isolated univariate series, it can provide useful information for portfolio risk monitoring and market surveillance. 
+This is especially relevant in cryptocurrency markets, where shocks often spread through changing dependence patterns across assets. 
+From a regulatory perspective, the indicators may also help monitor systemic fragility by revealing how market cohesion weakens under stress. 
+We therefore view the practical value of the framework as complementing existing volatility-, sentiment-, and market-based monitoring tools with an additional structural perspective on instability.
+\subsection{Limitations and Future Directions}
+While the proposed framework advances the application of TDA to cryptocurrency market analysis, the following limitations should be acknowledged when interpreting the findings.
+(1) Data scope.
+The empirical analysis covers a limited set of major assets on a single centralized venue, excluding small-cap tokens, derivatives, and DeFi 
+activities. 
+The findings therefore primarily reflect the structural properties of core centralized-exchange markets.
+(2) Parameter sensitivity.
+Sliding window length, embedding dimension, filtration thresholds, and diagram-comparison metrics all involve empirical decisions. 
+Although basic robustness checks are conducted, a more systematic 
+calibration approach, such as those drawing on Bayesian optimization or machine-learning techniques, would strengthen the reliability of change-point detection across alternative parameter specifications.
+(3) Causal interpretation.
+Topological summaries capture structural patterns and dependence properties but do not identify causal mechanisms. Granger causality tests over lags of 1--21 days indicate that log-DTW Betti-0 unidirectionally predicts VIX (\(p = 0.017\)) and exhibits bidirectional feedback with realised-volatility measures such as BVOL, consistent with Betti-0 serving as a partial leading indicator of market stress. 
+Nevertheless, Granger causality reflects predictive precedence rather than structural causation. A fuller identification of causal channels would require instrumental-variable approaches or local projections, which lie beyond the scope of the present study. These signals should therefore be interpreted as structural indicators rather than causal explanations.
+(4) Systemic risk approximation.
+Similarity networks are derived from price–volume co-movements rather than directional capital flows or position data, offering only an indirect approximation of systemic risk propagation.
+\noindent Several directions follow naturally from these limitations. 
+First, integrating richer cross-market and on-chain datasets, combined with causal models or graph neural networks, would clarify how topological features relate to underlying risk exposures. Second, the proposed framework could be extended to optimization-based decision models: 
+Betti-0, Betti-1, and persistence entropy could serve as regime indicators or additional risk constraints within dynamic portfolio allocation, hedging, and risk-management frameworks, thereby extending the role of TDA from structural-break detection to adaptive decision-making under systemic stress.
+
+\section*{List of Abbreviations}\label{List of Abbreviations}
+\begin{table}[htbp]
+\centering
+\caption{List of Abbreviations Used in Table~\ref{tab1}}
+\label{tab:abbrev}
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Abbreviation} & \textbf{Full Name} \\
+\midrule
+SW($n$)             & Sliding Window embedding with window size $n$ \\
+TD($n$)             & Time-Delay embedding with dimension $n$ \\
+VR                  & Vietoris--Rips filtration/complex \\
+Clique              & Clique complex \\
+Mapper              & TDA Mapper graph algorithm \\
+PL                  & Persistence Landscape \\
+Betti numbers/curve & Topological invariants counting connected components (H0) and loops (H1) \\
+Persistence entropy & Shannon entropy of a persistence diagram \\
+H0 / H1             & Zeroth / First homology group \\
+C1                  & 1-cycles \\
+L1 / L2             & $\ell^1$ / $\ell^2$ norm \\
+Wasserstein         & Wasserstein distance between persistence diagrams \\
+Bottleneck          & Bottleneck distance between persistence diagrams \\
+DTW                 & Dynamic Time Warping \\
+SPD                 & Shortest-Path Distance \\
+Diff                & Differencing operator \\
+MDS                 & Multidimensional Scaling \\
+FDA                 & Functional Data Analysis \\
+Surrogate           & Surrogate data hypothesis testing \\
+LPPLS               & Log-Periodic Power Law Singularity model \\
+EGARCH              & Exponential Generalized Autoregressive Conditional Heteroskedasticity \\
+RFM                 & Random Forest Model \\
+Kmeans              & $K$-means clustering \\
+CNN                 & Convolutional Neural Network \\
+TCN                 & Temporal Convolutional Network \\
+LSTM                & Long Short-Term Memory network \\
+GRU                 & Gated Recurrent Unit network \\
+N-BEATS             & Neural Basis Expansion Analysis for Time Series \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\section*{Declarations}
+\begin{itemize}
+\item Funding: This work was supported by Beijing Institute of Mathematical Sciences and Applications (BIMSA).
+\item Data availability: The data that support the findings of this study are available from the corresponding author upon reasonable request.
+\item Code availability: The code used in this study is available at the following GitHub repository: [https://github.com/Janeyaoo/A-Topological-Framework-for-Identifying-Structural-Breaks-in-Cross-Asset-Cryptocurrency-Network].
+\item Conflict of interest: The authors declare no conflicts of interest.
+\item Authors Contributions: J.W. collected the data and formulated the research objectives. J.Y. conducted the data analysis and interpreted the results. J.W. and J.Y. jointly wrote the manuscript. Y.F. reviewed the final version of the manuscript.All authors have read and agreed to the published version of the manuscript.
+\item Acknowledgments: We gratefully acknowledge the Digital Economy Laboratory in BIMSA and Beijing Key Laboratory of Topological Statistics and Applications for Complex Systems for the computational resources provided by them.
+\end{itemize}
+% ========== ref ==========
+\bibliographystyle{plainnat} 
+\bibliography{references}
+
+% ========== appendix ==========
+\begin{appendices}
+
+
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+
+\section{Appendices}\label{sec7}
+\label{appendix}
+
+% ========================================
+% 1.Robustness of the Sliding-Window Length and Time Lag
+% ========================================
+\subsection{Robustness of the Sliding-Window Length and Time Lag}
+\label{appendix A.1}
+The delay-embedding parameters \(m\) and \(\tau\) determine the temporal scale at which the evolving market structure is reconstructed. In our baseline specification, we set \(m=21\) and \(\tau=1\). 
+To verify that the empirical findings are not driven by this baseline specification alone, we conduct a systematic sensitivity analysis across all combinations of \(m \in \{7,14,21,28\}\) and \(\tau \in \{1,2,3\}\), yielding 12 parameter configurations in total(Figure~\ref{figA.1}). 
+The results show that the main conclusions remain qualitatively stable across these alternatives. In particular, Betti-0 consistently remains the strongest topological indicator, and the relative ordering of the leading TDA specifications changes only modestly across the parameter grid. These findings indicate that the choice \(m=21,\tau=1\) should be interpreted as a natural and economically meaningful baseline rather than a narrowly tuned specification.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{FigA.1.pdf}
+\caption{AUC Ranking Across 12 (m, $\tau$) Settings}
+\label{figA.1}
+\end{figure}
+
+% ========================================
+% 2:timeline
+% ========================================
+\subsection{Cryptocurrency Market Structural Break Events (2020--2025)}
+\label{app:crypto-events}
+
+This section documents major cryptocurrency market events and related macro events during our sample period. These events serve as ground-truth structural breaks for evaluating the detection performance of topological indicators.
+\begin{longtable}{
+  >{\raggedright\arraybackslash}p{2.3cm}
+  >{\raggedright\arraybackslash}p{3.1cm}
+  >{\raggedright\arraybackslash}p{7.8cm}
+  >{\raggedright\arraybackslash}p{3.2cm}}
+\caption{Major Cryptocurrency Market Events (2020--2025)}
+\label{tab:crypto-events}\\
+\toprule
+\textbf{Date} & \textbf{Event} & \textbf{Description} & \textbf{Category} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Date} & \textbf{Event} & \textbf{Description} & \textbf{Category} \\
+\midrule
+\endhead
+
+\midrule
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+1 Dec 2020 & Ethereum 2.0 Beacon Chain &
+Ethereum launched its Beacon Chain, initiating the transition from proof-of-work to proof-of-stake consensus. &
+Protocol upgrade \\
+
+2 Jan 2021 & BTC breaks \$30k &
+Bitcoin surpassed \$30,000 for the first time, extending the late-2020 rally. &
+Market milestone \\
+
+7 Jan 2021 & BTC breaks \$40k &
+Bitcoin broke through \$40,000, establishing successive all-time highs. &
+Market milestone \\
+
+29 Jan 2021 & Dogecoin frenzy &
+Retail speculation amplified by social media drove Dogecoin above 800\% intraday; Bitcoin gained 29\% on the month. &
+Market milestone \\
+
+16 Feb 2021 & BTC breaks \$50k &
+Bitcoin crossed the \$50,000 threshold for the first time. &
+Market milestone \\
+
+13 Mar 2021 & BTC breaks \$60k &
+Bitcoin approached \$61,000 amid strong institutional inflows and ample market liquidity. &
+Market milestone \\
+
+10 Apr 2021 & BTC cycle peak &
+Bitcoin reached a cycle high of approximately \$64,800. &
+Market milestone \\
+
+12 May 2021 & Tesla suspends BTC payments &
+Tesla suspended Bitcoin payments citing environmental concerns; Bitcoin fell over 10\%. &
+Corporate action \\
+
+19 May 2021 & China crypto crackdown &
+Three Chinese financial associations barred institutions from all cryptocurrency-related services. &
+Regulation \\
+
+9 Jun 2021 & El Salvador Bitcoin Law &
+El Salvador became the first country to adopt Bitcoin as legal tender. &
+Regulation \\
+
+4 Sep 2021 & China comprehensive ban &
+China declared all cryptocurrency trading and mining illegal, issuing comprehensive prohibition notices. &
+Regulation \\
+
+15 Oct 2021 & First US Bitcoin futures ETF &
+The SEC approved the first US Bitcoin futures ETF, expanding mainstream investor access. &
+Market infrastructure \\
+
+15 Nov 2021 & US Infrastructure Bill &
+The \$1.2 trillion infrastructure bill introduced crypto tax reporting requirements, obligating centralised exchanges to report transactions to the IRS. &
+Regulation \\
+
+27 Apr 2022 & CAR adopts Bitcoin &
+The Central African Republic adopted Bitcoin as legal tender, becoming the second country after El Salvador. &
+Regulation \\
+
+1 May 2022 & UST begins depegging &
+Large-scale UST selling triggered loss of the \$1 peg; arbitrage mechanisms failed to restore stability. &
+Stablecoin failure \\
+
+11 May 2022 & UST collapse continues &
+Do Kwon acknowledged inability to rescue the peg; the system relied solely on arbitrage mechanisms. &
+Stablecoin failure \\
+
+12 May 2022 & Terra ecosystem collapse &
+UST fell below \$0.20; the Terra ecosystem effectively collapsed. &
+Stablecoin failure \\
+
+13 May 2022 & LUNA delisting and chain halt &
+Major exchanges delisted LUNA and the Terra blockchain was temporarily halted amid emergency governance measures. &
+Exchange failure \\
+
+20 Jul 2022 & Tesla sells Bitcoin &
+Tesla disclosed the sale of 75\% of its Bitcoin holdings, approximately \$936 million. &
+Corporate action \\
+
+8 Nov 2022 & FTX collapse &
+FTX, the world's second-largest exchange, filed for bankruptcy amid a liquidity crisis and fraud allegations. &
+Exchange failure \\
+
+10 Mar 2023 & USDC depeg event &
+Silicon Valley Bank's failure triggered USDC depegging as Circle held \$3.3 billion in reserves there. &
+Banking shock \\
+
+16 Jun 2023 & BlackRock spot ETF filing &
+BlackRock filed for a spot Bitcoin ETF, reigniting institutional interest and prompting a wave of similar applications. &
+Market infrastructure \\
+
+1 Jul 2023 & Major DeFi security incidents &
+Over 30 major security breaches were reported, with aggregate losses exceeding \$415 million. &
+Security incident \\
+
+23 Oct 2023 & Grayscale court victory &
+The US Court of Appeals ruled in favour of Grayscale, compelling the SEC to reconsider spot Bitcoin ETF applications. &
+Enforcement/Legal \\
+
+20 Apr 2024 & Bitcoin halving (4th) &
+The fourth halving reduced block rewards from 6.25 to 3.125 BTC per block. &
+Protocol upgrade \\
+
+20 Jan 2025 & Trump inauguration &
+Markets anticipated a more crypto-friendly regulatory stance under the incoming administration. &
+Regulation \\
+
+3 Feb 2025 & AI bubble and tariff fears &
+The release of DeepSeek triggered a sell-off in AI-related assets and broader risk-off sentiment. &
+External macro shock \\
+
+21 Feb 2025 & Bybit wallet hack &
+Bybit suffered a major infrastructure breach resulting in approximately \$1.5 billion in ETH losses. &
+Security incident \\
+
+7 Mar 2025 & US Bitcoin strategic reserve &
+President Trump signed an executive order establishing a national strategic Bitcoin reserve. &
+Regulation \\
+
+20 May 2025 & US Stablecoin Bill advances &
+The US Senate advanced the GENIUS Act, a bipartisan bill establishing a federal stablecoin regulatory framework. &
+Regulation \\
+
+5 Jun 2025 & Circle IPO &
+Circle went public with its stock surging 170\% on the first trading day, signalling strong institutional demand. &
+Market infrastructure \\
+
+27 Jun 2025 & GENIUS Act passed &
+The US Senate passed the first comprehensive federal stablecoin regulatory framework in US history. &
+Regulation \\
+
+\end{longtable}
+
+% ========================================
+%  3: ROC-AUC 
+% ========================================
+\subsection{ROC-AUC Benchmark Results Across Different Evaluation Windows}
+\label{app:roc-auc}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{FigA.2.png}
+    \caption{ROC-AUC comparison for windows of 10, 14, 21, and 30 days}
+    \label{figA.2}
+\end{figure}
+The superiority of the ±21 day evaluation window is consistent with both the construction of the topological indicators and the statistical behavior observed across alternative window sizes. Since all TDA features are computed using a 21-day rolling window, any detected structural break inherently reflects information aggregated over the previous 21 days. A tolerance window of ±21 days therefore aligns the evaluation metric with the temporal resolution of the features and avoids penalizing delays that arise naturally from the data-generating process.
+Across the four window sizes considered (10, 14, 21, 30 days), the 21 day window produces the most stable and discriminative AUC patterns(Figure~\ref{figA.2}). Smaller windows exhibit high variance and noisy rankings, while larger windows inflate AUC values mechanically and reduce the separation between indicators. The 21 day window thus provides an optimal balance between sensitivity and specificity, yielding a robust and economically meaningful benchmark for comparing topological, market-based, and volatility indicators.
+
+
+% ========================================
+%  4: F1 Score 
+% ========================================
+\subsection{F1-Score Benchmark Results Across Different Evaluation Windows}
+\label{app:f1-score}
+When computing the F1-score for structural break detection, we adopt a tolerance window of ±21 days around each ground-truth event. This choice follows directly from the construction of the topological indicators, which are generated using a 21-day sliding window with a one-day step. Because each feature summarizes structural information over the preceding 21 days, any detected break may naturally appear with a delay of up to one full window length(Figure~\ref{figA.3}). 
+Using a ±21 day tolerance window therefore aligns the evaluation metric with the temporal granularity of the underlying features and avoids penalizing delays that arise from the data-generating process itself.
+Larger tolerance windows mechanically inflate the F1-score by relaxing the matching criterion. However, they no longer correspond to the effective resolution of the TDA features and thus risk overstating detection accuracy. The ±21 day window represents a conceptually coherent and methodologically justified benchmark for comparing topological indicators with traditional financial measures.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{FigA.3.png}
+    \caption{F1-score comparison for windows of 10, 14, 21, and 30 days}
+    \label{figA.3}
+\end{figure}
+\end{appendices}
+\end{document}

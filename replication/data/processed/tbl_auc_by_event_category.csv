@@ -1,0 +1,73 @@
+category,indicator,type,n_events,auc
+Regulation,log_dtw_betti0,TDA,10,0.5579
+Regulation,log_wass_betti0,TDA,10,0.5442
+Regulation,vol_dtw_betti0,TDA,10,0.5677
+Regulation,vol_wass_betti0,TDA,10,0.5688
+Regulation,VIX,Baseline,10,0.5179
+Regulation,BVOL,Baseline,10,0.5368
+Regulation,SP500,Baseline,10,0.6532
+Regulation,fng_value,Baseline,10,0.5334
+Regulation,vol_btc_rogers,Baseline,10,0.5267
+Systemic Failure,log_dtw_betti0,TDA,7,0.6021
+Systemic Failure,log_wass_betti0,TDA,7,0.5063
+Systemic Failure,vol_dtw_betti0,TDA,7,0.5072
+Systemic Failure,vol_wass_betti0,TDA,7,0.5049
+Systemic Failure,VIX,Baseline,7,0.8024
+Systemic Failure,BVOL,Baseline,7,0.544
+Systemic Failure,SP500,Baseline,7,0.7499
+Systemic Failure,fng_value,Baseline,7,0.7484
+Systemic Failure,vol_btc_rogers,Baseline,7,0.5893
+Market Milestone,log_dtw_betti0,TDA,6,0.9738
+Market Milestone,log_wass_betti0,TDA,6,0.9521
+Market Milestone,vol_dtw_betti0,TDA,6,0.9528
+Market Milestone,vol_wass_betti0,TDA,6,0.9102
+Market Milestone,VIX,Baseline,6,0.7172
+Market Milestone,BVOL,Baseline,6,0.947
+Market Milestone,SP500,Baseline,6,0.8788
+Market Milestone,fng_value,Baseline,6,0.8951
+Market Milestone,vol_btc_rogers,Baseline,6,0.7826
+Institutional Adoption,log_dtw_betti0,TDA,4,0.528
+Institutional Adoption,log_wass_betti0,TDA,4,0.5594
+Institutional Adoption,vol_dtw_betti0,TDA,4,0.5773
+Institutional Adoption,vol_wass_betti0,TDA,4,0.5641
+Institutional Adoption,VIX,Baseline,4,0.6409
+Institutional Adoption,BVOL,Baseline,4,0.6369
+Institutional Adoption,SP500,Baseline,4,0.6226
+Institutional Adoption,fng_value,Baseline,4,0.6518
+Institutional Adoption,vol_btc_rogers,Baseline,4,0.5221
+Corporate Action,log_dtw_betti0,TDA,5,0.5287
+Corporate Action,log_wass_betti0,TDA,5,0.536
+Corporate Action,vol_dtw_betti0,TDA,5,0.54
+Corporate Action,vol_wass_betti0,TDA,5,0.5538
+Corporate Action,VIX,Baseline,5,0.5748
+Corporate Action,BVOL,Baseline,5,0.6951
+Corporate Action,SP500,Baseline,5,0.7398
+Corporate Action,fng_value,Baseline,5,0.6298
+Corporate Action,vol_btc_rogers,Baseline,5,0.6422
+Protocol/Tech,log_dtw_betti0,TDA,2,0.738
+Protocol/Tech,log_wass_betti0,TDA,2,0.7111
+Protocol/Tech,vol_dtw_betti0,TDA,2,0.6414
+Protocol/Tech,vol_wass_betti0,TDA,2,0.6165
+Protocol/Tech,VIX,Baseline,2,0.516
+Protocol/Tech,BVOL,Baseline,2,0.6247
+Protocol/Tech,SP500,Baseline,2,0.6186
+Protocol/Tech,fng_value,Baseline,2,0.8946
+Protocol/Tech,vol_btc_rogers,Baseline,2,0.6671
+Macro Shock,log_dtw_betti0,TDA,1,0.615
+Macro Shock,log_wass_betti0,TDA,1,0.5384
+Macro Shock,vol_dtw_betti0,TDA,1,0.5438
+Macro Shock,vol_wass_betti0,TDA,1,0.6061
+Macro Shock,VIX,Baseline,1,0.6952
+Macro Shock,BVOL,Baseline,1,0.566
+Macro Shock,SP500,Baseline,1,0.9287
+Macro Shock,fng_value,Baseline,1,0.7722
+Macro Shock,vol_btc_rogers,Baseline,1,0.5955
+Security/Hack,log_dtw_betti0,TDA,2,0.5424
+Security/Hack,log_wass_betti0,TDA,2,0.6621
+Security/Hack,vol_dtw_betti0,TDA,2,0.698
+Security/Hack,vol_wass_betti0,TDA,2,0.6951
+Security/Hack,VIX,Baseline,2,0.8064
+Security/Hack,BVOL,Baseline,2,0.6749
+Security/Hack,SP500,Baseline,2,0.705
+Security/Hack,fng_value,Baseline,2,0.5217
+Security/Hack,vol_btc_rogers,Baseline,2,0.5528

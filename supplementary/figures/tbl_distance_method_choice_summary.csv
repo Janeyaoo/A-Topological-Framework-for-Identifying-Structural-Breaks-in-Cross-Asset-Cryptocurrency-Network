@@ -1,0 +1,4 @@
+distance_method,n_indicators,mean_of_mean_auc,median_of_mean_auc,max_mean_auc,best_indicator,best_indicator_mean_auc,window_wins,average_window_rank,distance_label
+dtw,36,0.5539106833779895,0.5277450179097336,0.6449185387489529,tda_dtw_m14_tau1_betti0,0.6449185387489529,2,1.6,DTW
+wasserstein,36,0.5498370256965971,0.5244185406726908,0.6381908924546558,tda_wasserstein_m07_tau1_betti0,0.6381908924546558,2,2.0,Wasserstein
+euclidean,36,0.5528594091974787,0.5251117093364608,0.6417839093041771,tda_euclidean_m14_tau1_betti0,0.6417839093041771,1,2.4,Euclidean

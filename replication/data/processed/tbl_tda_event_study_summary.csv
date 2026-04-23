@@ -1,0 +1,9 @@
+category,"mean_z_pre[-21,-1]","std_z_pre[-21,-1]","mean_z_post[0,+7]",signal_direction
+Corporate Action,1.242,1.568,1.254,Rising (↑)
+Institutional Adoption,-0.213,0.545,-0.257,Falling (↓)
+Macro Shock,-0.115,0.089,-0.069,Falling (↓)
+Market Milestone,2.492,1.132,2.832,Rising (↑)
+Protocol/Tech,0.389,0.585,0.041,Rising (↑)
+Regulation,0.19,1.124,0.071,Rising (↑)
+Security/Hack,-0.323,0.282,0.021,Falling (↓)
+Systemic Failure,-0.226,0.549,0.322,Falling (↓)

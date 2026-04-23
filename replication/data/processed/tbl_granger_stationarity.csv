@@ -1,0 +1,10 @@
+variable,ADF_p_level,stationary_level,ADF_p_diff,stationary_diff
+log_dtw_betti0,0.0514,False,0.0,True
+log_wass_betti0,0.0326,True,0.0,True
+vol_dtw_betti0,0.0062,True,0.0,True
+vol_wass_betti0,0.0045,True,0.0,True
+VIX,0.0,True,0.0,True
+BVOL,0.1918,False,0.0,True
+SP500,0.9577,False,0.0,True
+fng_value,0.0019,True,0.0,True
+vol_btc_rogers,0.0,True,0.0,True

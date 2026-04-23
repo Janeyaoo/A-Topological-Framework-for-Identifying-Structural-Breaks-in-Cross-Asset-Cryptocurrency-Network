@@ -1,0 +1,21 @@
+TDA indicator,Market indicator,TDA→Market sig. lags,Market→TDA sig. lags,Relationship,min_p_TDA→Market,min_p_Market→TDA
+log_dtw_betti0,VIX,[21],[],TDA leads Market,0.0168,0.4649
+log_dtw_betti0,BVOL,"[1, 3, 5, 7, 10, 14, 21]","[10, 14, 21]",Bidirectional,0.0,0.0
+log_dtw_betti0,SP500,[],[],No causality,0.6478,0.8071
+log_dtw_betti0,fng_value,[],"[1, 3, 5, 7, 10, 14, 21]",Market leads TDA,0.0982,0.0024
+log_dtw_betti0,vol_btc_rogers,"[14, 21]","[1, 3, 5, 7, 10, 14, 21]",Bidirectional,0.0,0.0
+log_wass_betti0,VIX,[],[],No causality,0.1331,0.1234
+log_wass_betti0,BVOL,"[1, 3, 5, 7, 10, 14, 21]","[1, 3, 5, 7, 10, 14, 21]",Bidirectional,0.0,0.0018
+log_wass_betti0,SP500,[],[],No causality,0.3532,0.4069
+log_wass_betti0,fng_value,"[3, 5, 7, 10, 14, 21]","[1, 3, 5, 7, 10, 14, 21]",Bidirectional,0.0053,0.0036
+log_wass_betti0,vol_btc_rogers,"[1, 3, 5, 7, 10, 14, 21]","[10, 14, 21]",Bidirectional,0.0,0.0
+vol_dtw_betti0,VIX,"[10, 14, 21]","[14, 21]",Bidirectional,0.0001,0.001
+vol_dtw_betti0,BVOL,"[1, 3, 5, 7, 10, 14, 21]","[1, 3, 5, 7, 10, 14, 21]",Bidirectional,0.0,0.0
+vol_dtw_betti0,SP500,[],[],No causality,0.7658,0.9084
+vol_dtw_betti0,fng_value,"[10, 14, 21]","[1, 3, 5, 7, 10, 14, 21]",Bidirectional,0.0015,0.0002
+vol_dtw_betti0,vol_btc_rogers,"[1, 3, 5, 7, 10, 14, 21]","[10, 14, 21]",Bidirectional,0.0,0.0
+vol_wass_betti0,VIX,"[10, 14, 21]","[14, 21]",Bidirectional,0.0,0.0004
+vol_wass_betti0,BVOL,"[1, 3, 5, 7, 10, 14, 21]","[14, 21]",Bidirectional,0.0,0.0
+vol_wass_betti0,SP500,[],[],No causality,0.6673,0.6289
+vol_wass_betti0,fng_value,"[5, 7, 10, 14, 21]","[1, 3, 5, 7, 10, 14, 21]",Bidirectional,0.0005,0.0001
+vol_wass_betti0,vol_btc_rogers,"[1, 3, 5, 7, 10, 14, 21]","[3, 5, 7, 10, 14, 21]",Bidirectional,0.0,0.0
